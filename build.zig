@@ -17,7 +17,7 @@ pub fn build(b: *std.Build) void {
 
     const exe = b.addExecutable(.{
         .name = "1brc-zig",
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
@@ -30,7 +30,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     create_sample_exe.addCSourceFile(.{
-        .file = .{ .path = "src/create-sample.c" },
+        .file = b.path("src/create-sample.c"),
         .flags = &[_][]const u8{ "-Wall", "-Wextra", "-Werror" },
     });
     create_sample_exe.linkLibC();
@@ -61,7 +61,7 @@ pub fn build(b: *std.Build) void {
     run_create_sample_step.dependOn(&run_create_sample_cmd.step);
 
     const exe_unit_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
